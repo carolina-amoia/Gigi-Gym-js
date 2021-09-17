@@ -50,63 +50,44 @@ function registrarPersona(){
 
     if (nombre.value != "" && edad.value != "" && telefono.value != "" && mail.value != "" ){
         const persona = new Datos(nombre.value, edad.value, telefono.value, mail.value);
-        console.log(persona);
-        fichaSocio.push(persona);
-        localStorage.setItem("datosPersona",JSON.stringify(fichaSocio));
-     
-
-    
-        const texto = document.createElement("tr");
-        texto.id = "datosPersona";
-        texto.innerHTML =`<td>${persona.nombre}</td>
-        <td>${persona.edad}</td>
-        <td>${persona.telefono}</td>
-        <td>${persona.mail}</td>`
-        document.getElementById("personaId").appendChild(texto);
-
-        mostrarEnvioCorrecto("Datos enviados Exitosamente");
-
-        // cambiar valor de elementos con jquery
-        $("#nombre").val("");
-        $("#edad").val("");
-        $("#telefono").val("");
-        $("#mail").val("");
-        
-    }else {
+        crearRegistro(persona, fichaSocio);
+        vaciarCampos();
+    }
+    else {
         mostrarError("Por favor ingrese todos los datos");
-        // cambiar valor de elementos con jquery
-        $("#nombre").val("");
-        $("#edad").val("");
-        $("#telefono").val("");
-        $("#mail").val("");
-}}
+        vaciarCampos();
+    }   
+}
+
+function crearRegistro(persona, fichaSocio) {
+    console.log(persona);
+    fichaSocio.push(persona);
+    const texto = document.createElement("tr");
+    texto.id = "datosPersona";
+    texto.innerHTML =`<td>${persona.nombre}</td>
+    <td>${persona.edad}</td>
+    <td>${persona.telefono}</td>
+    <td>${persona.mail}</td>`
+    document.getElementById("personaId").appendChild(texto);
+    localStorage.setItem("datosPersona",JSON.stringify(fichaSocio));
+    alert("Datos enviados Exitosamente. Muchas Gracias!");
+}
+
+function vaciarCampos() {
+    $("#nombre").val("");
+    $("#edad").val("");
+    $("#telefono").val("");
+    $("#mail").val("");  
+}
+
 
 
 const formulario = $("#form");
 
-// function mostrarEnvioCorrecto (mensaje) {
-//     const envioCorrecto = document.createElement('p');
-//     envioCorrecto.textContent = mensaje;
-//     envioCorrecto.classList.add("correcto");
-//     console.log(envioCorrecto);
-//     formulario.appendChild(envioCorrecto);
-//     setTimeout(()=>{
-//         envioCorrecto.remove();
-//     },5000);
+  //form de contacto enviada satisfactoriamente
+  $('#enviarForm').on('click', () => alert('Gracias por enviar su consulta!'));
 
 
-// }
-// function mostrarError(mensaje){
-//     const error = document.createElement('p');
-//     error.textContent = mensaje;
-//     error.classList.add('error');
-//     console.log(error);
-    
-//     formulario.appendChild(error);
-//     setTimeout(()=>{
-//         error.remove();
-//     },3000);
-// }
 anime.timeline({loop: true})
   .add({
     targets: '.ml5 .line',
@@ -150,11 +131,6 @@ anime.timeline({loop: true})
 
 
 
-
-
-
-
-
 	// Accordion
 	// initAccordion('.accordion', true);
 	// initAccordion('.accordion', false);
@@ -187,3 +163,27 @@ anime.timeline({loop: true})
 	initAccordion('.accordion.acc-single-open', true);
 	// Deschide multiple, fara a inchide celelalte
 	initAccordion('.accordion.acc-multiple-open', false);
+
+  function calcularIMC() {
+    var nombre = document.getElementById('nombre').value;
+    var alturaEnCentimetros = parseInt(document.getElementById('altura').value);
+    var alturaEnMetros = alturaEnCentimetros / 100;
+    var pesoEnKilos = parseInt(document.getElementById('peso').value);
+  
+    var imc = Math.round(pesoEnKilos / (alturaEnMetros * alturaEnMetros));
+    var clasificacion;
+    
+    if (imc < 18.5) {
+      clasificacion = 'estás muy delgado';
+    } else if (imc < 25) {
+      clasificacion = 'estás saludable';
+    } else {
+      clasificacion = 'tienes sobrepeso';
+    }
+    /* Consejo:
+    
+    */
+    var respuesta = 'Hola, tu IMC es ' + imc + ' y tu ' + clasificacion;
+    alert(respuesta);
+  }
+  
